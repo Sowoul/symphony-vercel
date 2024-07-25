@@ -7,188 +7,164 @@
     <link href="https://fonts.googleapis.com/css?family=Gotham&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/howler@2.2.3/dist/howler.min.js"></script>
 
-
-
-
-
     <style>
         body {
-            font-family: Arial, sans-serif; 
+            font-family: 'Gotham', sans-serif; 
             margin: 0;
             padding: 0;
-            overflow-y: auto;
-            overflow-x: hidden;
-            background: #05010b; /* Set background color for the entire body */
+            overflow: hidden;
+            background: #121212; /* Dark theme background */
+            color: #e0e0e0; /* Light text color for contrast */
         }
 
         header {
-      font-family: 'Gotham', sans-serif;
-      color: #fff;
-      text-shadow: 2px 2px #000;
-      text-align: center;
-      padding: 20px;
-      background-color: transparent;
-      position: relative;
-  }
-  header img {
-            position: absolute;
-            justify-content: center;
-            padding-bottom: 10em;
-            height: 80px; /* Adjust the height as needed */
-            transition: transform 0.3s ease;
-            z-index: 50;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+            background: #181818; /* Dark background for top bar */
+            border-bottom: 1px solid #333;
+            z-index: 1000; /* Ensure header is on top */
+            position: relative;
         }
 
+        header img {
+            height: 50px; /* Adjust the logo size */
+            width: 50px;
+        }
+
+        #search-form {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            max-width: 300px;
+            margin-right: 5%;
+        }
+
+        input[type=text] {
+            padding: 10px;
+            width: 100%;
+            font-size: 16px;
+            border: 1px solid #333;
+            background: #282828;
+            color: #e0e0e0;
+            border-radius: 20px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        input[type=text]:focus {
+            background: #333;
+            border-color: #1db954;
+        }
+
+        i {
+            margin-left: -30px;
+            color: #1db954;
+            font-size: 26px;
+            font-style: normal;
+            margin-bottom: 3px;
+        }
 
         main {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 1em;
-            margin-bottom: 80px;
-        }
-
-        form {
-            margin-bottom: 1em;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 20px;
+            position: relative;
         }
 
         ul {
             list-style: none;
             padding: 0;
+            margin: 0;
         }
-        
-        .container{
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            }
-
-        input[type=text]{
-            position: relative;
-            padding: 15px 40px 15px 20px;
-            width: 12px;
-            text-transform: uppercase;
-            font-size: 20px;
-            font-weight: 100;
-            letter-spacing: 2px;
-            color:aliceblue;
-            border: 1px solid rgba(4, 255, 0, 0);
-            border-bottom: 0.5px solid rgba(4, 255, 0, 1);
-            background: rgba(0, 0, 0, 0.1);
-            transition: width 0.4s ease;
-            outline: none;
-            &:focus{ width: 300px; }
-            }
-
-            i{
-            position: relative;
-            pointer-events: none;
-            left: -44px;
-            color: rgba(4, 255, 0, 1);
-            font-style: normal;
-            font-size: 30px;
-            }
-
-
 
         li {
             display: flex;
             align-items: center;
-            margin-bottom: 1em;
-            margin-top:3em;
-            border: 5px solid rgba(0, 255, 34, 0.052);
-            
-            padding: 1em;
-            background-color: rgba(8, 1, 30, 0.2);
-            border-radius: 8px;
-            position: relative; /* Ensure that li elements are positioned relative */
-            z-index: 1; /* Set z-index to make sure li elements are above the background */
-            transition: transform 0.3s ease; /* Add transition for smooth scaling */
-        }
-        li:hover {
-            transform: scale(1.05); /* Increase scale on hover */
+            margin-bottom: 15px;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: #1c1c1c;
+            transition: background-color 0.3s, transform 0.3s;
+            cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+            position: relative;
         }
 
+        li:hover {
+            background-color: #282828;
+            transform: scale(1.02);
+        }
 
         img {
-            height: 100px;
-            margin-right: 1em;
+            height: 60px; /* Adjust thumbnail size */
+            width: 60px; /* Ensure width matches height */
+            border-radius: 5px;
+            margin-right: 15px;
         }
 
-        .play-icon {
-            width: 30px;
-            height: 30px;
-            background-color: #1db954;
-            border-radius: 50%;
+        .video-details {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            font-size: 20px;
-            cursor: pointer;
-            margin-right: 1em;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        li:hover .play-icon {
-            opacity: 1;
+            flex-direction: column;
+            flex-grow: 1;
         }
 
+        .video-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #e0e0e0;
+            margin: 0;
+        }
+
+        .video-creator {
+            font-size: 14px;
+            color: #b0b0b0;
+            margin: 5px 0;
+        }
+
+        .video-views {
+            font-size: 12px;
+            color: #888;
+        }
 
         .audio-controls {
             position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
-            background-color: rgba(3, 4, 6, 0.8);
-            border-top: 2px solid rgba(4, 255, 0, 0.1);
+            background-color: #181818;
+            border-top: 1px solid #333;
             display: flex;
             align-items: center;
-            padding: 12px;
-            box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.1);
-            display: none;
+            padding: 10px 20px;
+            box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.2);
             z-index: 101;
+            display: none; /* Hide the controls initially */
         }
 
         .audio-controls img {
-            height: 45px;
-            margin-right: 10px;
-            display: block;
-            padding-left: 1em;
+            height: 50px; /* Adjust thumbnail size */
+            margin-right: 15px;
+            border-radius: 5px;
         }
 
-        .audio-title, .video-title {
-            margin-right: 10px;
-            font-size: 14px;
+        .audio-title {
+            flex-grow: 1;
+            font-size: 16px;
+            color: #e0e0e0;
+            margin-right: 20px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            max-width: 200px;
-            color: #fff;
-        }
-        .video-details{
-            font-size: 12px;
-            color: #fff;
-        }
-        #audio-player {
-            background-color: rgba(1, 153, 255, 0);
-            padding-right: 30%;
-            padding-left: 10%;
-            width: 30%;
-            justify-content: center;
-            flex-grow: 1;
-            z-index: 100;
+            max-width: 300px; /* Limit the title width */
         }
 
-        @keyframes move {
-            100% {
-                transform: translate3d(0, 0, 1px) rotate(360deg);
-            }
+        #audio-player {
+            flex-grow: 1;
+            width: 50%;
+            background-color: #121212;
+            justify-self: center;
+            margin-right:25%;
         }
 
         .background {
@@ -198,35 +174,39 @@
             width: 100vw;
             height: 100vh;
             overflow: hidden;
+            z-index: 0; /* Ensure background is behind other elements */
         }
 
         .background span {
             width: 50vmin;
             height: 50vmin;
             border-radius: 50vmin;
-            backface-visibility: hidden;
             position: absolute;
-            animation: move;
-            animation-duration: 45s; /* Add 's' to the duration value */
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
+            animation: move 45s linear infinite;
+        }
+
+        @keyframes move {
+            100% {
+                transform: translate3d(0, 0, 1px) rotate(360deg);
+            }
         }
 
         .loading-overlay {
-        display: none; /* Hide the loading overlay initially */
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(255, 255, 255, 0); /* Adjust the background color and opacity */
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        z-index: 80; /* Adjust the z-index to ensure it's above other elements */
-        backdrop-filter: blur(8px); /* Apply a blur effect to the background */
-    }
-    @keyframes rotate {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 80;
+            backdrop-filter: blur(8px);
+        }
+
+        @keyframes rotate {
             from {
                 transform: rotate(0deg);
             }
@@ -235,97 +215,31 @@
             }
         }
 
-
         .loading-logo {
-            height: 100px; /* Adjust the height of the logo */
-            width: 100px; /* Adjust the width of the logo */
+            height: 80px;
+            width: 80px;
             animation: rotate 2s infinite linear;
         }
-
-        .background span:nth-child(0) {
-            color: #07cf43;
-            top: 8%;
-            left: 56%;
-            animation-duration: 11s;
-            animation-delay: -38s;
-            transform-origin: 5vw -9vh;
-            box-shadow: 100vmin 0 13.210245183352043vmin currentColor;
-        }
-        .background span:nth-child(1) {
-            color: #00ff59;
-            top: 6%;
-            left: 83%;
-            animation-duration: 14s;
-            animation-delay: -8s;
-            transform-origin: -4vw -12vh;
-            box-shadow: 100vmin 0 13.000797491785788vmin currentColor;
-        }
-        .background span:nth-child(2) {
-            color: #00ff59;
-            top: 22%;
-            left: 35%;
-            animation-duration: 35s;
-            animation-delay: -23s;
-            transform-origin: -20vw 25vh;
-            box-shadow: -100vmin 0 12.956906506118123vmin currentColor;
-        }
-        .background span:nth-child(3) {
-            color: #00ff9d;
-            top: 7%;
-            left: 69%;
-            animation-duration: 34s;
-            animation-delay: -39s;
-            transform-origin: 4vw 23vh;
-            box-shadow: 100vmin 0 13.022127971719735vmin currentColor;
-        }
-        .background span:nth-child(4) {
-            color: #00ff59;
-            top: 58%;
-            left: 4%;
-            animation-duration: 12s;
-            animation-delay: -45s;
-            transform-origin: 19vw -22vh;
-            box-shadow: -100vmin 0 13.236438074205067vmin currentColor;
-        }
-        .background span:nth-child(5) {
-            color: #07cf43;
-            top: 92%;
-            left: 71%;
-            animation-duration: 42s;
-            animation-delay: -6s;
-            transform-origin: 6vw -1vh;
-            box-shadow: 100vmin 0 12.531633959555556vmin currentColor;
-        }
-        #search-form {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-        }
-
-
     </style>
-
 </head>
 <body>
 
     <header>
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-
+        <form id="search-form" action="/" method="GET">
+            <input class='js-search' type="text" autocomplete="off" id="search-input" placeholder="Search">
+            <i class="fa fa-search">⌕</i>
+        </form>
     </header>
+
     <div class="background">
         <span></span>
         <span></span>
         <span></span>
         <span></span>
-        <!-- Add more spans as needed -->
     </div>
+
     <main>
-        <form id="search-form" action="/" method="GET">
-            <div class="container">
-                <input class='js-search' type="text" autocomplete="off" id="search-input">
-                <i class="fa fa-search">⌕</i>
-            </div>
-        </form>
         <div class="loading-overlay">
             <img class="loading-logo" src="{{ url_for('static', filename='logo.png') }}" alt="Loading Logo">
         </div>    
@@ -335,117 +249,122 @@
                 <img src="{{ video.thumbnail }}" alt="Thumbnail">
                 <div class="video-details">
                     <p class="video-title">{{ video.title }}</p>
-                    <p>{{ video.creator }}</p>
-                    <p>Views: {{ video.views }}</p>
+                    <p class="video-creator">{{ video.creator }}</p>
+                    <p class="video-views">Views: {{ video.views }}</p>
                 </div>
             </li>
             {% endfor %}
-            </ul>
+        </ul>
     </main>
 
-    <!-- Audio controls -->
     <div class="audio-controls" id="audio-controls">
         <img id="audio-thumbnail" src="" alt="Audio Thumbnail">
         <p class="audio-title"></p>
-        <audio id="audio-player" controls style="width: 30%;"></audio>
+        <audio id="audio-player" controls></audio>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
     <script>
-// Add a loading overlay with logo and blur effect
-function showLoadingOverlay() {
-    $('.loading-overlay').show();
-}
-
-function hideLoadingOverlay() {
-    $('.loading-overlay').hide();
-}
-
-$(document).ready(function () {
-    var isFirstLoad = true; // Flag to track the first page load
-
-    // Function to hide the loading overlay only on the first load
-    function hideLoadingOnFirstLoad() {
-        if (isFirstLoad) {
-            hideLoadingOverlay();
-            isFirstLoad = false;
-        }
-    }
-
-    // Hide loading overlay when the document is ready
-    hideLoadingOnFirstLoad();
-
-    function clearSearchInput() {
-        $('#search-input').val('');
-    }
-
-    var currentAudio = null;
-
-    function playAudio(audioUrl, title, thumbnail) {
-        if (currentAudio) {
-            currentAudio.pause();
+        function showLoadingOverlay() {
+            $('.loading-overlay').show();
         }
 
-        var audioPlayer = $('#audio-player')[0];
-        audioPlayer.src = audioUrl;
+        function hideLoadingOverlay() {
+            $('.loading-overlay').hide();
+        }
 
-        var audioThumbnail = $('#audio-thumbnail');
-        audioThumbnail.attr('src', thumbnail);
+        $(document).ready(function () {
+            var isFirstLoad = true;
 
-        audioPlayer.play();
+            function hideLoadingOnFirstLoad() {
+                if (isFirstLoad) {
+                    hideLoadingOverlay();
+                    isFirstLoad = false;
+                }
+            }
 
-        var audioTitle = $('.audio-title');
-        audioTitle.text(title);
+            hideLoadingOnFirstLoad();
 
-        var audioControls = $('#audio-controls');
-        audioControls.css('display', 'flex');
+            function clearSearchInput() {
+                $('#search-input').val('');
+            }
 
-        currentAudio = audioPlayer;
-    }
+            var currentAudio = null;
 
-    $('#search-form').on('submit', function (event) {
-        event.preventDefault();
+            function playAudio(audioUrl, title, thumbnail) {
+                if (currentAudio) {
+                    currentAudio.pause();
+                }
 
-        var searchTerm = $('#search-input').val().trim();
+                var audioPlayer = $('#audio-player')[0];
+                audioPlayer.src = audioUrl;
 
-        if (searchTerm !== '') {
-            showLoadingOverlay(); // Show loading overlay when submitting
+                var audioThumbnail = $('#audio-thumbnail');
+                audioThumbnail.attr('src', thumbnail);
 
-            $.ajax({
-                url: '/',
-                type: 'GET',
-                data: { 'search': searchTerm },
-                dataType: 'json',
-                success: function (data) {
-                    $('ul').empty();
+                audioPlayer.play();
 
-                    data.videos.forEach(function (video) {
-                        var newLi = $('<li>').on('click', function () {
-                            playAudio(video.audio_url, video.title, video.thumbnail);
-                        });
-                        newLi.append('<img src="' + video.thumbnail + '" alt="Thumbnail">');
-                        var detailsDiv = $('<div class="video-details">');
-                        detailsDiv.append('<p class="video-title">' + video.title + '</p>');
-                        detailsDiv.append('<p>' + video.creator + '</p>');
-                        detailsDiv.append('<p>Views: ' + video.views + '</p>');
-                        newLi.append(detailsDiv);
-                        $('ul').append(newLi);
+                var audioTitle = $('.audio-title');
+                audioTitle.text(title);
+
+                var audioControls = $('#audio-controls');
+                audioControls.css('display', 'flex');
+
+                currentAudio = audioPlayer;
+            }
+
+            $('#search-form').on('submit', function (event) {
+                event.preventDefault();
+
+                var searchTerm = $('#search-input').val().trim();
+
+                if (searchTerm !== '') {
+                    showLoadingOverlay();
+
+                    $.ajax({
+                        url: '/',
+                        type: 'GET',
+                        data: { 'search': searchTerm },
+                        dataType: 'json',
+                        success: function (data) {
+                            $('ul').empty();
+
+                            data.videos.forEach(function (video) {
+                                var newLi = $('<li>').on('click', function () {
+                                    playAudio(video.audio_url, video.title, video.thumbnail);
+                                });
+                                newLi.append('<img src="' + video.thumbnail + '" alt="Thumbnail">');
+                                var detailsDiv = $('<div class="video-details">');
+                                detailsDiv.append('<p class="video-title">' + video.title + '</p>');
+                                detailsDiv.append('<p class="video-creator">' + video.creator + '</p>');
+                                detailsDiv.append('<p class="video-views">Views: ' + video.views + '</p>');
+                                newLi.append(detailsDiv);
+                                $('ul').append(newLi);
+                            });
+
+                            hideLoadingOverlay();
+                            clearSearchInput();
+                        },
+                        error: function (error) {
+                            console.error('Error loading search results:', error);
+                            hideLoadingOverlay();
+                        }
                     });
-
-                    hideLoadingOverlay(); // Hide loading overlay on success
-                    clearSearchInput();
-                },
-                error: function (error) {
-                    console.error('Error loading search results:', error);
-
-                    hideLoadingOverlay(); // Hide loading overlay on error
                 }
             });
-        }
-    });
-});
-    </script>
-    </body>
-</html>
 
+            $('#audio-player').on('pause', function () {
+                $('#audio-controls').show();
+            });
+
+            $('#audio-player').on('ended', function () {
+                $('#audio-controls').hide();
+            });
+
+            $('#audio-player').on('play', function () {
+                $('#audio-controls').show();
+            });
+        });
+    </script>
+</body>
+</html>
