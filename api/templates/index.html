@@ -3,74 +3,117 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Symphorny</title>
-    <link href="https://fonts.googleapis.com/css?family=Gotham&display=swap" rel="stylesheet">
+    <title>Symphony</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <script src="https://unpkg.com/howler@2.2.3/dist/howler.min.js"></script>
-
+    
     <style>
         body {
-            font-family: 'Gotham', sans-serif; 
+            font-family: 'Inter', sans-serif; 
             margin: 0;
             padding: 0;
-            overflow: hidden;
-            background: #121212; /* Dark theme background */
-            color: #e0e0e0; /* Light text color for contrast */
+            overflow: auto;
+            background: #121212;
+            color: #e0e0e0;
         }
 
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 10px 20px;
-            background: #181818; /* Dark background for top bar */
+            padding: 15px 30px;
+            background: #181818;
             border-bottom: 1px solid #333;
-            z-index: 1000; /* Ensure header is on top */
+            z-index: 1000;
             position: relative;
         }
 
         header img {
-            height: 50px; /* Adjust the logo size */
-            width: 50px;
+            height: 40px;
+            width: 40px;
         }
 
-        #search-form {
+        .nav-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .nav-links a {
+            color: #bbb;
+            text-decoration: none;
+            font-size: 1em;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #1db954;
+        }
+
+        .container {
+            text-align: center;
+            padding: 20px 30px;
+            border-radius: 10px;
+            background-color: #1e1e1e;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 750px;
+            position: relative;
+            margin-top:15%;
+            top: 35%;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: top 0.5s ease, opacity 0.5s ease;
+            opacity: 1;
+            z-index: 1000;
+        }
+
+        .container.moved {
+            margin-top: 20px;
+        }
+
+        .search-box {
             display: flex;
             align-items: center;
-            flex-grow: 1;
-            max-width: 300px;
-            margin-right: 5%;
-        }
-
-        input[type=text] {
-            padding: 10px;
-            width: 100%;
-            font-size: 16px;
             border: 1px solid #333;
-            background: #282828;
-            color: #e0e0e0;
-            border-radius: 20px;
+            border-radius: 30px;
+            padding: 10px;
+            background-color: #2a2a2a;
+            transition: background-color 0.3s ease;
+        }
+
+        .search-box:hover {
+            background-color: #333;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
             outline: none;
-            transition: all 0.3s ease;
+            background: none;
+            color: #fff;
+            padding: 10px;
+            font-size: 1em;
+            border-radius: 30px;
         }
 
-        input[type=text]:focus {
-            background: #333;
-            border-color: #1db954;
+        .search-box .search-icon, .search-box .go-icon {
+            color: #fff;
+            padding: 0 10px;
         }
 
-        i {
-            margin-left: -30px;
-            color: #1db954;
-            font-size: 26px;
-            font-style: normal;
-            margin-bottom: 3px;
+        .search-box .go-icon {
+            cursor: pointer;
         }
 
         main {
-            max-width: 800px;
+            width: 100%;
+            max-width: 810px;
             margin: 20px auto;
-            padding: 0 20px;
-            position: relative;
+            margin-top: 20px;
         }
 
         ul {
@@ -84,11 +127,12 @@
             align-items: center;
             margin-bottom: 15px;
             border-radius: 10px;
-            padding: 10px;
+            padding: 15px;
             background-color: #1c1c1c;
             transition: background-color 0.3s, transform 0.3s;
-            cursor: pointer; /* Change cursor to pointer to indicate it's clickable */
+            cursor: pointer;
             position: relative;
+            overflow: hidden;
         }
 
         li:hover {
@@ -97,8 +141,8 @@
         }
 
         img {
-            height: 60px; /* Adjust thumbnail size */
-            width: 60px; /* Ensure width matches height */
+            height: 60px;
+            width: 60px;
             border-radius: 5px;
             margin-right: 15px;
         }
@@ -107,6 +151,7 @@
             display: flex;
             flex-direction: column;
             flex-grow: 1;
+            overflow: hidden;
         }
 
         .video-title {
@@ -114,12 +159,18 @@
             font-weight: bold;
             color: #e0e0e0;
             margin: 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .video-creator {
             font-size: 14px;
             color: #b0b0b0;
             margin: 5px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
         }
 
         .video-views {
@@ -134,61 +185,49 @@
             width: 100%;
             background-color: #181818;
             border-top: 1px solid #333;
-            display: flex;
+            display: flex; /* Ensure it uses flex layout */
             align-items: center;
             padding: 10px 20px;
             box-shadow: 0px -1px 10px rgba(0, 0, 0, 0.2);
-            z-index: 101;
-            display: none; /* Hide the controls initially */
+            z-index: 1000000;
+            box-sizing: border-box;
+            margin: 0 auto; /* Center the container */
+            justify-content: space-between; /* Space out left-container and audio player */
+            visibility: hidden; /* Initially hidden using visibility */
+            opacity: 0; /* Initially hidden using opacity */
+            transition: visibility 0.3s, opacity 0.3s; /* Smooth transition */
         }
 
-        .audio-controls img {
-            height: 50px; /* Adjust thumbnail size */
-            margin-right: 15px;
+        .audio-controls .left-container {
+            display: flex;
+            align-items: center;
+            margin-right: auto; /* Pushes the left container to the left side */
+        }
+
+        .audio-controls .left-container img {
+            height: 50px; /* Fixed height */
+            width: 50px;  /* Fixed width */
             border-radius: 5px;
+            margin-right: 10px; /* Space between image and title */
         }
 
-        .audio-title {
-            flex-grow: 1;
+        .audio-controls .left-container .audio-title {
             font-size: 16px;
             color: #e0e0e0;
-            margin-right: 20px;
             overflow: hidden;
             white-space: nowrap;
             text-overflow: ellipsis;
-            max-width: 300px; /* Limit the title width */
+            max-width: 200px; /* Limit width of the title */
+            flex-shrink: 0; /* Prevent shrinking of the title */
+            margin-right: 20px; /* Space between title and audio player */
         }
 
         #audio-player {
-            flex-grow: 1;
-            width: 50%;
-            background-color: #121212;
-            justify-self: center;
-            margin-right:25%;
-        }
-
-        .background {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
-            z-index: 0; /* Ensure background is behind other elements */
-        }
-
-        .background span {
-            width: 50vmin;
-            height: 50vmin;
-            border-radius: 50vmin;
+            background-color: #181818;
             position: absolute;
-            animation: move 45s linear infinite;
-        }
-
-        @keyframes move {
-            100% {
-                transform: translate3d(0, 0, 1px) rotate(360deg);
-            }
+            width: 40%;
+            margin-left: 28.5%; /* Space between audio player and title */
+            margin-right: 30%;
         }
 
         .loading-overlay {
@@ -220,47 +259,51 @@
             width: 80px;
             animation: rotate 2s infinite linear;
         }
+
+        h1 {
+            font-family: 'Poppins', sans-serif;
+            font-weight: 700;
+            font-size: 3em; /* Adjust as needed */
+            margin: 0;
+            color: #ffffff; /* Ensure visibility */
+            padding-bottom: 10px;
+        }
     </style>
 </head>
 <body>
-
     <header>
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
-        <form id="search-form" action="/" method="GET">
-            <input class='js-search' type="text" autocomplete="off" id="search-input" placeholder="Search">
-            <i class="fa fa-search">⌕</i>
-        </form>
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href ="#">Source Code</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">GitHub</a>
+        </nav>
     </header>
-
-    <div class="background">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+    
+    <div class="container">
+        <h1>Symphony</h1>
+        <form id="search-form" class="search-box">
+            <input type="text" id="search-input" placeholder="Search...">
+            <i class="fas fa-search search-icon"></i>
+            <i class="fas fa-chevron-right go-icon"></i>
+        </form>
     </div>
 
     <main>
-        <div class="loading-overlay">
-            <img class="loading-logo" src="{{ url_for('static', filename='logo.png') }}" alt="Loading Logo">
-        </div>    
-        <ul>
-            {% for video in videos %}
-            <li onclick="playAudio('{{ video.audio_url }}', '{{ video.title }}', '{{ video.thumbnail }}')">
-                <img src="{{ video.thumbnail }}" alt="Thumbnail">
-                <div class="video-details">
-                    <p class="video-title">{{ video.title }}</p>
-                    <p class="video-creator">{{ video.creator }}</p>
-                    <p class="video-views">Views: {{ video.views }}</p>
-                </div>
-            </li>
-            {% endfor %}
-        </ul>
+        <ul id="results-list"></ul>
     </main>
 
-    <div class="audio-controls" id="audio-controls">
-        <img id="audio-thumbnail" src="" alt="Audio Thumbnail">
-        <p class="audio-title"></p>
+    <div id="audio-controls" class="audio-controls">
+        <div class="left-container">
+            <img id="audio-thumbnail" src="" alt="Audio Thumbnail">
+            <p class="audio-title"></p>
+        </div>
         <audio id="audio-player" controls></audio>
+    </div>
+    
+    <div class="loading-overlay" style="display: none;">
+        <img class="loading-logo" src="{{ url_for('static', filename='logo.png') }}" alt="Loading Logo">
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -307,10 +350,20 @@
                 var audioTitle = $('.audio-title');
                 audioTitle.text(title);
 
-                var audioControls = $('#audio-controls');
-                audioControls.css('display', 'flex');
+                // Show the audio controls
+                $('#audio-controls').css({
+                    'visibility': 'visible',
+                    'opacity': '1'
+                });
 
                 currentAudio = audioPlayer;
+            }
+
+            function hideAudioControls() {
+                $('#audio-controls').css({
+                    'visibility': 'hidden',
+                    'opacity': '0'
+                });
             }
 
             $('#search-form').on('submit', function (event) {
@@ -319,6 +372,7 @@
                 var searchTerm = $('#search-input').val().trim();
 
                 if (searchTerm !== '') {
+                    $('.container').addClass('moved');
                     showLoadingOverlay();
 
                     $.ajax({
@@ -327,7 +381,7 @@
                         data: { 'search': searchTerm },
                         dataType: 'json',
                         success: function (data) {
-                            $('ul').empty();
+                            $('#results-list').empty();
 
                             data.videos.forEach(function (video) {
                                 var newLi = $('<li>').on('click', function () {
@@ -339,30 +393,18 @@
                                 detailsDiv.append('<p class="video-creator">' + video.creator + '</p>');
                                 detailsDiv.append('<p class="video-views">Views: ' + video.views + '</p>');
                                 newLi.append(detailsDiv);
-                                $('ul').append(newLi);
+                                $('#results-list').append(newLi);
                             });
 
                             hideLoadingOverlay();
                             clearSearchInput();
                         },
                         error: function (error) {
-                            console.error('Error loading search results:', error);
+                            console.error('Error fetching search results:', error);
                             hideLoadingOverlay();
                         }
                     });
                 }
-            });
-
-            $('#audio-player').on('pause', function () {
-                $('#audio-controls').show();
-            });
-
-            $('#audio-player').on('ended', function () {
-                $('#audio-controls').hide();
-            });
-
-            $('#audio-player').on('play', function () {
-                $('#audio-controls').show();
             });
         });
     </script>
