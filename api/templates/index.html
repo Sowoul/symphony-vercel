@@ -44,15 +44,26 @@
             color: #bbb;
             text-decoration: none;
             font-size: 1em;
+            margin-left: 5px;
             position: relative;
-            padding: 5px 0;
-            transition: color 0.3s;
         }
 
-        .nav-links a:hover {
-            color: #1db954;
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            display: block;
+            margin: auto;
+            left: 0;
+            right: 0;
+            background: #00dc6a;
+            transition: width 0.5s;
         }
 
+        .nav-links a:hover::after {
+            width: 100%;
+        }
         .container {
             text-align: center;
             padding: 20px 30px;
@@ -274,10 +285,10 @@
     <header>
         <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo">
         <nav class="nav-links">
-            <a href="#">Home</a>
-            <a href ="#">Source Code</a>
-            <a href="#">LinkedIn</a>
-            <a href="#">GitHub</a>
+            <a href="https://symphony-beta.vercel.app/">Home</a>
+            <a href ="https://github.com/Sowoul/symphony-vercel">Source Code</a>
+            <a href="https://www.linkedin.com/in/ojaswa-sharma-/">LinkedIn</a>
+            <a href="https://github.com/Sowoul">GitHub</a>
         </nav>
     </header>
     
